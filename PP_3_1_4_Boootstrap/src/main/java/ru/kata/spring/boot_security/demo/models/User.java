@@ -18,6 +18,7 @@ public class User implements UserDetails {
     private String password;
     private Integer salary;
     private String email;
+    private  boolean enabled;
     @ManyToMany
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -25,12 +26,13 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String username, String password, Integer salary, String email, Set<Role> roles) {
+    public User(Long id, String username, String password, Integer salary, String email, boolean enabled, Set<Role> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.salary = salary;
         this.email = email;
+        this.enabled = enabled;
         this.roles = roles;
     }
 
@@ -66,6 +68,10 @@ public class User implements UserDetails {
             stringBuilder.append(role.toString()).append(" ");
         }
         return stringBuilder.toString();
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Integer getSalary() {
@@ -114,7 +120,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
     @Override
